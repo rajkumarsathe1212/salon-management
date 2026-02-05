@@ -52,7 +52,7 @@ export default function ClientProfilePage() {
                 >
                     <ArrowLeft className="h-6 w-6" />
                 </button>
-                <h1 className="text-3xl font-bold text-gray-900">{client.name}'s Profile</h1>
+                <h1 className="text-3xl font-bold text-gray-900">{client.name} Profile</h1>
             </div>
 
             <div className="grid lg:grid-cols-3 gap-8">

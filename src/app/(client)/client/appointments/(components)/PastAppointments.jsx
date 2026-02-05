@@ -32,18 +32,20 @@ export default function PastAppointments() {
                         </div>
                         <div>
                             <h4 className="font-bold text-gray-900">{apt.service}</h4>
-                            <p className="text-sm text-gray-500">{apt.date} • {apt.specialist}</p>
+                            <div className="flex items-center gap-2 mt-1">
+                                <p className="text-sm text-gray-500">{apt.date}</p>
+                                <span className="w-1 h-1 bg-gray-300 rounded-full"></span>
+                                <p className="text-sm font-bold text-indigo-600">{apt.price}</p>
+                            </div>
                         </div>
                     </div>
 
-                    <div className="flex gap-3 w-full md:w-auto">
-                        <button className="flex-1 md:flex-none flex items-center justify-center gap-2 px-4 py-2 bg-white border border-gray-200 rounded-xl text-sm font-medium hover:shadow-sm transition">
-                            <Star className="w-4 h-4 text-yellow-500 fill-yellow-500" />
-                            Review
+                    <div className="flex gap-2 w-full md:w-auto">
+                        <button className="flex-1 md:flex-none px-4 py-2 border border-gray-200 rounded-xl text-sm font-bold hover:bg-white transition flex items-center justify-center gap-2">
+                            <Star className="w-4 h-4 text-yellow-500" /> Review
                         </button>
-                        <button className="flex-1 md:flex-none flex items-center justify-center gap-2 px-4 py-2 bg-indigo-600 text-white rounded-xl text-sm font-medium hover:bg-indigo-700 transition">
-                            <RotateCcw className="w-4 h-4" />
-                            Rebook
+                        <button className="flex-1 md:flex-none px-4 py-2 bg-gray-900 text-white rounded-xl text-sm font-bold hover:bg-black transition flex items-center justify-center gap-2">
+                            <RotateCcw className="w-4 h-4" /> Rebook
                         </button>
                     </div>
                 </div>

@@ -17,7 +17,7 @@ export default function RouteGuard({ children }) {
       const isPublicPath = publicPaths.includes(pathname);
 
       const homeRoutes = {
-        ADMIN: '/admin/dashboard',
+        // ADMIN: '/admin/dashboard',
         OWNER: '/owner/dashboard',
         CLIENT: '/client/booking',
       };
@@ -33,9 +33,10 @@ export default function RouteGuard({ children }) {
         const isAccessingOwner = pathname.startsWith('/owner');
         const isAccessingClient = pathname.startsWith('/client');
 
-        if (role === 'ADMIN' && (isAccessingOwner || isAccessingClient)) {
-          router.replace(homeRoutes.ADMIN);
-        } else if (role === 'OWNER' && (isAccessingAdmin || isAccessingClient)) {
+        // if (role === 'ADMIN' && (isAccessingOwner || isAccessingClient)) {
+        //   router.replace(homeRoutes.ADMIN);
+        // }
+        if (role === 'OWNER' && (isAccessingAdmin || isAccessingClient)) {
           router.replace(homeRoutes.OWNER);
         } else if (role === 'CLIENT' && (isAccessingAdmin || isAccessingOwner)) {
           router.replace(homeRoutes.CLIENT);

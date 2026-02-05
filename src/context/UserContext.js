@@ -41,7 +41,8 @@ export function UserProvider({ children }) {
     const savedUser = Cookies.get(COOKIE_NAME);
     if (savedUser) {
       try {
-        setCurrentUser(JSON.parse(savedUser));
+        const parsed = JSON.parse(savedUser);
+        setCurrentUser(parsed);
       } catch (e) {
         console.error("Failed to parse user cookie");
       }

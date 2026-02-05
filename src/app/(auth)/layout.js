@@ -13,8 +13,8 @@ export default function AuthLayout({ children }) {
 
   useEffect(() => {
     if (user) {
-      if (role === 'ADMIN') router.replace('/admin/dashboard');
-      else if (role === 'OWNER') router.replace('/owner/dashboard');
+      // if (role === 'ADMIN') router.replace('/admin/dashboard');
+      if (role === 'OWNER') router.replace('/owner/dashboard');
       else router.replace('/');
     }
   }, [user, role, router]);

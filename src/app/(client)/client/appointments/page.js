@@ -24,7 +24,7 @@ export default function AppointmentsPage() {
             </h1>
 
             {/* Tabs List */}
-            <div className="flex gap-8 border-b mb-8" role="tablist">
+            <div className="flex gap-4 sm:gap-8 border-b mb-8 overflow-x-auto no-scrollbar" role="tablist">
                 <button
                     role="tab"
                     aria-selected={activeTab === 'upcoming'}

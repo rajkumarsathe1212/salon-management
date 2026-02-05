@@ -44,7 +44,7 @@ export default function OwnerDashboard() {
         {/* Left Column (Appointments) */}
         <div className="lg:col-span-2 bg-white rounded-xl shadow-lg p-6">
           <div className="flex justify-between items-center mb-4 border-b pb-3">
-            <h2 className="text-xl font-semibold text-gray-800">Today's Appointments</h2>
+            <h2 className="text-xl font-semibold text-gray-800">Todays Appointments</h2>
             <Link href="/owner/appointments" className="text-sm font-medium text-indigo-600 hover:text-indigo-800 flex items-center">
               View Calendar <Calendar className="ml-1 h-4 w-4" />
             </Link>
@@ -85,7 +85,7 @@ export default function OwnerDashboard() {
           <div className="bg-white p-6 rounded-xl shadow-lg">
             <h2 className="text-xl font-semibold text-gray-800 mb-4 border-b pb-3">Quick Actions</h2>
             <div className="space-y-3">
-              <Link href="/owner/appointments/new" className="block w-full text-center py-2 text-sm font-medium text-white bg-indigo-600 rounded-lg hover:bg-indigo-700 transition">
+              <Link href="/owner/appointments/add" className="block w-full text-center py-2 text-sm font-medium text-white bg-indigo-600 rounded-lg hover:bg-indigo-700 transition">
                 Book New Appointment
               </Link>
               <Link href="/owner/clients/new" className="block w-full text-center py-2 text-sm font-medium text-indigo-600 bg-indigo-100 rounded-lg hover:bg-indigo-200 transition">

@@ -6,12 +6,10 @@ import { useState } from 'react';
 import { ChevronLeft, ChevronRight, Plus } from 'lucide-react'; 
 // FIX: Added 'addMonths' and 'subMonths' for cleaner navigation
 import { format, startOfMonth, endOfMonth, eachDayOfInterval, isSameMonth, isToday, addMonths, addDays, subMonths, startOfWeek } from 'date-fns'; 
-import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 
 export default function AppointmentsCalendar() {
     const [currentDate, setCurrentDate] = useState(new Date());
-    const router = useRouter();
 
     // --- Calendar Logic ---
     // Start the day range from the start of the week of the first day of the month
@@ -44,79 +42,90 @@ export default function AppointmentsCalendar() {
     const goToToday = () => setCurrentDate(new Date());
 
     return (
-        <>
-            <div className="mb-8 flex justify-between items-center">
-                <h1 className="text-3xl font-bold text-gray-900">Appointment Calendar</h1>
-                <Link className="bg-indigo-600 text-white px-6 py-3 rounded-lg hover:bg-indigo-700 flex items-center gap-2 transition" href="/owner/appointments/add">
-                    <Plus className="h-5 w-5" /> New Booking
+        <div className="max-w-full overflow-hidden">
+            {/* Page Header - Responsive stacking */}
+            <div className="mb-6 md:mb-8 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                <h1 className="text-2xl md:text-3xl font-bold text-gray-900">Appointments</h1>
+                <Link className="w-full sm:w-auto bg-indigo-600 text-white px-5 py-2.5 rounded-lg hover:bg-indigo-700 flex items-center justify-center gap-2 transition shadow-md" href="/owner/appointments/add">
+                    <Plus className="h-5 w-5" /> <span>New Booking</span>
                 </Link>
             </div>
 
-            <div className="bg-white rounded-xl shadow-lg p-6">
-                {/* Calendar Header */}
-                <div className="flex justify-between items-center mb-6">
-                    <h2 className="text-2xl font-bold text-gray-800">
+            <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+                {/* Calendar Controls */}
+                <div className="flex justify-between items-center p-4 md:p-6 border-b border-gray-100">
+                    <h2 className="text-lg md:text-2xl font-bold text-gray-800">
                         {format(currentDate, 'MMMM yyyy')}
                     </h2>
-                    <div className="flex gap-3">
-                        <button 
-                            onClick={goToPreviousMonth} // FIX: Use new handler
-                            className="p-2 hover:bg-gray-100 rounded-lg transition"
-                            aria-label="Previous month"
-                        >
+                    <div className="flex items-center gap-1 md:gap-3">
+                        <button onClick={goToPreviousMonth} className="p-2 hover:bg-gray-100 rounded-lg transition">
                             <ChevronLeft className="h-5 w-5" />
                         </button>
-                        
-                        <button 
-                            onClick={goToToday} // FIX: Use new handler
-                            className="px-4 py-2 bg-indigo-100 text-indigo-700 rounded-lg font-medium hover:bg-indigo-200 transition"
-                        >
+                        <button onClick={goToToday} className="px-3 py-1.5 md:px-4 md:py-2 bg-indigo-50 text-indigo-700 rounded-lg text-sm font-semibold hover:bg-indigo-100 transition">
                             Today
                         </button>
-                        
-                        <button 
-                            onClick={goToNextMonth} // FIX: Use new handler
-                            className="p-2 hover:bg-gray-100 rounded-lg transition"
-                            aria-label="Next month"
-                        >
+                        <button onClick={goToNextMonth} className="p-2 hover:bg-gray-100 rounded-lg transition">
                             <ChevronRight className="h-5 w-5" />
                         </button>
                     </div>
                 </div>
 
                 {/* Days Grid */}
-                <div className="grid grid-cols-7 gap-1 text-center">
-                    {/* Day Headers (Sun - Sat) */}
+                <div className="grid grid-cols-7 gap-px bg-gray-200">
+                    {/* Day Headers - Single letter on mobile, Full on desktop */}
                     {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map(day => (
-                        <div key={day} className="font-bold text-gray-600 py-3 text-sm">{day}</div>
+                        <div key={day} className="bg-white font-bold text-gray-500 py-2 md:py-4 text-[10px] md:text-sm uppercase tracking-widest text-center">
+                            <span className="hidden md:inline">{day}</span>
+                            <span className="md:hidden">{day.charAt(0)}</span>
+                        </div>
                     ))}
 
                     {/* Day Cells */}
                     {days.map(day => {
                         const count = getBookingCount(day);
-                        // FIX: Use isToday from date-fns for cleaner logic
                         const isTodayValue = isToday(day); 
+                        const isCurrentMonth = isSameMonth(day, currentDate);
 
                         return (
-                        <div
-                            key={format(day, 'yyyy-MM-dd')} // FIX: Use a stable unique key
-                            className={`p-3 rounded-xl border transition hover:shadow-md cursor-pointer h-24 flex flex-col justify-start items-center
-                            ${!isSameMonth(day, currentDate) ? 'text-gray-400 bg-gray-50 border-transparent' : ''}
-                            ${isSameMonth(day, currentDate) && !isTodayValue ? 'bg-white hover:bg-indigo-50 border-gray-200' : ''}
-                            ${isTodayValue ? 'bg-indigo-600 text-white border-indigo-700' : ''}
-                            `}
-                        >
-                            <div className={`font-semibold text-lg ${isTodayValue ? 'text-white' : 'text-gray-900'}`}>{format(day, 'd')}</div>
-                            {count > 0 && (
-                            <div className={`text-xs mt-1 px-2 py-1 rounded-full font-medium ${isTodayValue ? 'bg-white text-indigo-600' : 'bg-indigo-100 text-indigo-700'}`}>
-                                {count} bookings
+                            <div
+                                key={format(day, 'yyyy-MM-dd')}
+                                className={`relative min-h-[80px] md:min-h-[120px] p-1 md:p-2 bg-white transition cursor-pointer hover:bg-gray-50
+                                ${!isCurrentMonth ? 'bg-gray-50/50' : ''}
+                                `}
+                            >
+                                {/* Date Number */}
+                                <div className="flex justify-between items-start">
+                                    <span className={`
+                                        flex items-center justify-center w-7 h-7 md:w-8 md:h-8 text-xs md:text-sm font-semibold rounded-full
+                                        ${isTodayValue ? 'bg-indigo-600 text-white' : 'text-gray-700'}
+                                        ${!isCurrentMonth ? 'text-gray-300' : ''}
+                                    `}>
+                                        {format(day, 'd')}
+                                    </span>
+                                </div>
+
+                                {/* Bookings Indicators */}
+                                <div className="mt-1 md:mt-2 space-y-1">
+                                    {count > 0 && (
+                                        <>
+                                            {/* Desktop: Text badge */}
+                                            <div className="hidden md:block px-2 py-1 bg-indigo-100 text-indigo-700 text-[10px] font-bold rounded-md truncate">
+                                                {count} Bookings
+                                            </div>
+                                            {/* Mobile: Simple Dot or Mini-badge */}
+                                            <div className="md:hidden flex justify-center">
+                                                <div className="w-5 h-5 flex items-center justify-center bg-indigo-600 text-white text-[10px] rounded-full font-bold shadow-sm">
+                                                    {count}
+                                                </div>
+                                            </div>
+                                        </>
+                                    )}
+                                </div>
                             </div>
-                            )}
-                        </div>
                         );
                     })}
                 </div>
             </div>
-        </>
+        </div>
     );
 }

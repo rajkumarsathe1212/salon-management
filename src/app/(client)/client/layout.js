@@ -28,6 +28,9 @@ export default function ClientDashboardLayout({ children }) {
                     </Link>
 
                     <nav className="hidden md:flex items-center gap-8 text-sm font-medium text-gray-600">
+                        <Link href="/client" className="hover:text-indigo-600 flex items-center gap-2">
+                            <Calendar className="w-4 h-4" /> Home
+                        </Link>
                         <Link href="/client/booking" className="hover:text-indigo-600 flex items-center gap-2">
                             <Calendar className="w-4 h-4" /> Book Now
                         </Link>
